@@ -80,14 +80,14 @@ class WebsocketTest
                 'message' => ''
             ];
 
-            foreach ($ws->connections as $fd) {
-                if ($ws->isEstablished($fd)) {
+            foreach ($ws->connections as $fds) {
+                if ($ws->isEstablished($fds)) {
                     $name = $ws->table->get($fd, 'name');
                     $msg['message'] = "{$name}退出群聊";
-                    $ws->table->del($fd);
-                    $ws->push($fd, json_encode($msg, JSON_UNESCAPED_UNICODE));
+                    $ws->push($fds, json_encode($msg, JSON_UNESCAPED_UNICODE));
                 }
             }
+            $ws->table->del($fd);
         });
 
         $this->server->start();
