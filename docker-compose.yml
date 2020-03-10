@@ -2,15 +2,15 @@ version: '3'
 
 services:
   nginx:
-    image: nginx:apline
+    image: nginx:alpine
     links:
       - swoole
     ports:
-      - 8080:8080
+      - 34332:8080
     volumes:
       - ./conf.d/:/etc/nginx/conf.d/
       - ./core/chat.html:/usr/share/nginx/html/index.html
   swoole:
-    image: phpswoole/swoole
+    image: phpswoole/swoole:4.4.15-php7.3
     volumes:
       - ./core:/var/www/

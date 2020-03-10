@@ -5,7 +5,7 @@
         name = prompt('请输入昵称:',"");
     }
 
-    var wsServer = 'ws://127.0.0.1:8080';
+    var wsServer = 'ws://127.0.0.1:9501';
     var websocket = new WebSocket(wsServer);
 
     websocket.onopen = function (evt) {
@@ -69,6 +69,7 @@
 </script>
 
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>
         span {
             border: red 1px solid;
