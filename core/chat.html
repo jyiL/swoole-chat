@@ -30,7 +30,7 @@
 
     websocket.onmessage = function (evt) {
         var jsonObj = JSON.parse(evt.data);
-        console.log(jsonObj);
+        // console.log(jsonObj);
         document.getElementById("onlineNum").innerHTML = jsonObj.num;
 
         if (jsonObj.name) {
