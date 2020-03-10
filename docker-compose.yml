@@ -11,6 +11,8 @@ services:
       - ./conf.d/:/etc/nginx/conf.d/
       - ./core/chat.html:/usr/share/nginx/html/index.html
   swoole:
-    image: phpswoole/swoole:4.4.15-php7.3
+    image: phpswoole/swoole:4.4.15-php7.2
+    ports:
+      - 9502:9502
     volumes:
-      - ./core:/var/www/
+      - ./core:/var/www
