@@ -46,7 +46,7 @@ class WebsocketTest
 
             $data = json_decode($frame->data, 1);
 
-            if ($data && isset($data['name'])) {
+            if ($data && isset($data['name']) && empty($ws->table->get($frame->fd, 'name'))) {
                 $ws->table->set($frame->fd, [
                     'fd' => $frame->fd,
                     'name' =>$data['name']
