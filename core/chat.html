@@ -13,16 +13,16 @@
             name: name
         };
         websocket.send(JSON.stringify(openData));
-        // console.log("Connected to WebSocket server.");
+        console.log("Connected to WebSocket server.");
     };
 
     websocket.onclose = function (evt) {
-        // console.log("Disconnected");
+        console.log("Disconnected");
     };
 
     websocket.onmessage = function (evt) {
         var jsonObj = JSON.parse(evt.data);
-        // console.log(jsonObj);
+        console.log(jsonObj);
         document.getElementById("onlineNum").innerHTML = jsonObj.num;
 
         if (jsonObj.name) {
@@ -39,7 +39,7 @@
     };
 
     websocket.onerror = function (evt, e) {
-        // console.log('Error occured: ' + evt.data);
+        console.log('Error occured: ' + evt.data);
     };
 
     function send() {
@@ -50,6 +50,7 @@
                 message: data.value
             };
             websocket.send(JSON.stringify(sendData));
+            document.getElementById("input").value = '';
         }
     }
 
