@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:apline
+    links:
+      - swoole
+    ports:
+      - 8080:8080
+    volumes:
+      - ./conf.d/:/etc/nginx/conf.d/
+      - ./core/chat.html:/usr/share/nginx/html/index.html
+  swoole:
+    image: phpswoole/swoole
+    volumes:
+      - ./core:/var/www/

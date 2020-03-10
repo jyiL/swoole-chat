@@ -1,0 +1,91 @@
+<script>
+    var name = '';
+    while(name == '' || name == null || name == 'null'){
+        //弹出对话框给用户输入内容
+        name = prompt('请输入昵称:',"");
+    }
+
+    var wsServer = 'ws://127.0.0.1:8080';
+    var websocket = new WebSocket(wsServer);
+
+    websocket.onopen = function (evt) {
+        var openData = {
+            name: name
+        };
+        websocket.send(JSON.stringify(openData));
+        // console.log("Connected to WebSocket server.");
+    };
+
+    websocket.onclose = function (evt) {
+        // console.log("Disconnected");
+    };
+
+    websocket.onmessage = function (evt) {
+        var jsonObj = JSON.parse(evt.data);
+        // console.log(jsonObj);
+        document.getElementById("onlineNum").innerHTML = jsonObj.num;
+
+        if (jsonObj.name) {
+            var tag = jsonObj.me == true ? "<p style='text-align:right;color: red;'>" : "<p>";
+            tag += jsonObj.name + "：" + jsonObj.message + "</p> ";
+            document.getElementById('chatList').insertAdjacentHTML("beforeEnd",tag);
+        } else {
+            var tag="<p>" + jsonObj.message + "</p> ";
+            document.getElementById('chatList').insertAdjacentHTML("beforeEnd",tag);
+        }
+
+        var span = document.getElementById('chatList');
+        span.scrollTop = span.scrollHeight;
+    };
+
+    websocket.onerror = function (evt, e) {
+        // console.log('Error occured: ' + evt.data);
+    };
+
+    function send() {
+        var data = document.getElementById("input");
+
+        if (data.value) {
+            var sendData = {
+                message: data.value
+            };
+            websocket.send(JSON.stringify(sendData));
+        }
+    }
+
+    document.onkeydown = keyDownSearch;
+    function keyDownSearch(e) {
+        // 兼容FF和IE和Opera    
+        var theEvent = e || window.event;
+        var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+        // 13 代表 回车键
+        if (code == 13) {
+            // 要执行的函数 或者点击事件
+            send();
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<head>
+    <style>
+        span {
+            border: red 1px solid;
+            width: 80%;
+            height: 50%;
+            display: block;
+            overflow-y: scroll;
+        }
+        p {
+            margin: 10px 10px;
+        }
+    </style>
+</head>
+<h3>在线人数：<b id="onlineNum">0</b></h3>
+<span id="chatList">
+</span>
+<input type="text" id="input" value="" />
+<button onclick="send()">send</button>
+<br>
+<a href="javascript: void(0);" target="_blank">项目地址</a>
