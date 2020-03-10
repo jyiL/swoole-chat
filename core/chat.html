@@ -1,9 +1,16 @@
 <script>
     var name = '';
+
+    var chatName = localStorage.getItem("chat-name");
+    if (chatName) {
+        name = chatName;
+    }
     while(name == '' || name == null || name == 'null'){
         //弹出对话框给用户输入内容
         name = prompt('请输入昵称:',"");
     }
+
+    localStorage.setItem("chat-name",name);
 
     var wsServer = 'ws://127.0.0.1:9502';
     var websocket = new WebSocket(wsServer);
@@ -13,11 +20,12 @@
             name: name
         };
         websocket.send(JSON.stringify(openData));
-        console.log("Connected to WebSocket server.");
+        // console.log("Connected to WebSocket server.");
     };
 
     websocket.onclose = function (evt) {
-        console.log("Disconnected");
+        // console.log("Disconnected");
+        alert('连接已关闭');
     };
 
     websocket.onmessage = function (evt) {
@@ -39,7 +47,8 @@
     };
 
     websocket.onerror = function (evt, e) {
-        console.log('Error occured: ' + evt.data);
+        // console.log('Error occured: ' + evt.data);
+        alert('连接已断开');
     };
 
     function send() {
